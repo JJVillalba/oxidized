@@ -31,7 +31,8 @@ abstract class Option<T extends Object> extends Equatable {
       Option<T>.from(fromJsonT(json));
 
   /// Converts to JSon. Json serialization support for json_serializable with @JsonSerializable.
-  Object toJson(Object? Function(T) toJsonT) => toJsonT();
+  Object? toJson(Object? Function(T) toJsonT) => isSome() ? toJsonT(unwrap()) : null;
+
 
 
   /// Returns an nullable that represents this optional value.
