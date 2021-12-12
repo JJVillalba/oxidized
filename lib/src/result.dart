@@ -26,8 +26,11 @@ abstract class Result<T extends Object, E extends Object> extends Equatable {
   factory Result.of(T Function() catching) {
     try {
       return Ok(catching());
-    } catch (e) {
-      return Err(e as E);
+    } catch (e, stackTrace) {
+      return Err(
+        e as E,
+        stackTrace: stackTrace,
+      );
     }
   }
 
@@ -224,8 +227,13 @@ class Ok<T extends Object, E extends Object> extends Result<T, E> {
 class Err<T extends Object, E extends Object> extends Result<T, E> {
   final E _err;
 
+  final StackTrace? stackTrace;
+
   /// Create an `Err` result with the given error.
-  Err(E err) : _err = err;
+  Err(
+    E err, {
+    this.stackTrace,
+  }) : _err = err;
 
   @override
   List<Object?> get props => [_err];

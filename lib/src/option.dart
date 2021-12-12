@@ -25,15 +25,14 @@ abstract class Option<T extends Object> extends Equatable {
   factory Option.from(T? v) {
     return v == null ? None() : Some(v);
   }
-  
+
   /// Converts from JSon. Json serialization support for json_serializable with @JsonSerializable.
   factory Option.fromJson(dynamic json, T? Function(Object?) fromJsonT) =>
-      Option<T>.from(fromJsonT(json));
+      Option<T>.from(json != null ? fromJsonT(json) : null);
 
   /// Converts to JSon. Json serialization support for json_serializable with @JsonSerializable.
-  Object? toJson(Object? Function(T) toJsonT) => isSome() ? toJsonT(unwrap()) : null;
-
-
+  Object? toJson(Object? Function(T) toJsonT) =>
+      isSome() ? toJsonT(unwrap()) : null;
 
   /// Returns an nullable that represents this optional value.
   ///
